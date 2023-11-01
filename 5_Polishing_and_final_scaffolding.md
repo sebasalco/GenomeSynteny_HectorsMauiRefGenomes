@@ -196,3 +196,4 @@ ragtag.py scaffold /path/to/reference/RefCetaceanGenomes/Tursiops/T_truncatus.fa
 /path/output/from/pilon/hectors_pilon_polish.fasta \
 -aligner 'nucmer'
 ```
+After this steps the final chromosome-level genomes for Hector's and Māui dolphin was obtained. The next step is the genome annotation
