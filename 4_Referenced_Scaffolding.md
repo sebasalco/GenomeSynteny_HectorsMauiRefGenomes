@@ -9,12 +9,12 @@ The output from LR_Gapcloser was used as query genome for this scaffolding step,
 ```
 #!/bin/bash -e
 
-#SBATCH --cpus-per-task 	8
+#SBATCH --cpus-per-task 8
 #SBATCH --job-name	RagtagScff
 #SBATCH --mem		50G
 #SBATCH --time		10:00:00
 #SBATCH --account	uoo02423
-#SBATCH --output		%x_%j.out
+#SBATCH --output	%x_%j.out
 #SBATCH --error		%x_%j.err
 #SBATCH --hint		nomultithread
 
@@ -44,12 +44,12 @@ In this step, we merged the results from the 5 different scaffolding performed i
 ```
 #!/bin/bash -e
 
-#SBATCH --cpus-per-task 	8
+#SBATCH --cpus-per-task 8
 #SBATCH --job-name	RagtagMerge
 #SBATCH --mem		50G
 #SBATCH --time		10:00:00
 #SBATCH --account	uoo02423
-#SBATCH --output		%x_%j.out
+#SBATCH --output	%x_%j.out
 #SBATCH --error		%x_%j.err
 #SBATCH --hint		nomultithread
 
@@ -76,7 +76,7 @@ We constructed a phylogenetic tree to confirm the phylogenetic relationships of 
 #SBATCH --mem		300G
 #SBATCH --time		72:00:00
 #SBATCH --account	uoo02423
-#SBATCH --output		%x_%j.out
+#SBATCH --output	%x_%j.out
 #SBATCH --error		%x_%j.err
 #SBATCH --hint		nomultithread
 
@@ -98,4 +98,29 @@ SANS -i CetaceanList.txt \ #List of the cetacean reference genomes paths
 /path/to/reference/RefCetaceanGenomes/BlueWhale/Balaenoptera_musculus.fasta
 /path/ragtag/output/hectors_genome.fasta
 /path/ragtag/output/maui_genome.fasta
+```
+## 4. miniBUSCO assessment.
+We performed a miniBUSCO analysis of the chromosome-level genomes obtained at the end of this stage.
+`Script for miniBUSCO`
+```
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task  24
+#SBATCH --job-name       minibuscoHec
+#SBATCH --mem            50G
+#SBATCH --time           12:00:00
+#SBATCH --account        uoo02423
+#SBATCH --output         %x_%j.out
+#SBATCH --error          %x_%j.err
+#SBATCH --hint           nomultithread
+
+module purge
+module load miniBUSCO/0.2.1-gimkl-2022a
+module load Python/3.11.3-gimkl-2022a
+
+minibusco.py run -a /path/ragtag/output/hectors_genome.fasta \
+-t ${SLURM_CPUS_PER_TASK} \
+-o H_minibusco \
+-l cetartiodactyla #Lineage \
+-L /path/to/busco/lineage/directory/Busco/Lineage
 ```
