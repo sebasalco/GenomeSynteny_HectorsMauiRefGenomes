@@ -3,7 +3,7 @@
 ## 1. Files for PSMC. 
 First we mapped the WGS short reads of each dolphin to their own reference genome.
 
-`Script for minimap2
+`Script for minimap2`
 ```
 #!/bin/bash -e
 
@@ -30,7 +30,7 @@ $GENOME \
 
 We indexed the genome, and used the output .bam file to call the variants with bcftools mpileup
 
-'Script for bcftools mpileup'
+`Script for bcftools mpileup`
 ```
 #!/bin/bash -e
 
@@ -61,7 +61,7 @@ bcftools mpileup -Q 30 -q 30 -O v \
 ## 2. PSMC bootstrap
 Here we transforme de .fq file to psmc and performed a bootstrap of 100.
 
-'Script for PSMC bootstrap'
+`Script for PSMC bootstrap`
 ```
 #!/bin/bash -e
 
@@ -94,7 +94,7 @@ psmc_plot.pl -R -u 1.3e-08 -g 12.5 -p hectors_bootstrap hectors_bootstrap.psmc
 ## 3. Pseudo_PSMC
 To analyze when Hector’s and Māui dolphins could have been reproductively isolated (cessation of gene flow) from each other, we performed a pseudodiploid/hybrid PSMC using seqtk.
 
-'Script for pseudo PSMC'
+`Script for pseudo PSMC`
 ```
 #!/bin/bash -e
 
