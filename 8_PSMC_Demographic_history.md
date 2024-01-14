@@ -3,7 +3,7 @@
 ## 1. Files for PSMC. 
 First we mapped the WGS short reads of each dolphin to their own reference genome.
 
-`Script for minimap2'
+`Script for minimap2
 ```
 #!/bin/bash -e
 
