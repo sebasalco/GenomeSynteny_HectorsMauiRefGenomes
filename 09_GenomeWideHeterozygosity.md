@@ -49,8 +49,6 @@ module load SAMtools/1.16.1-GCC-11.3.0
 #module load BCFtools/1.16-GCC-11.3.0
 module load VCFtools/0.1.15-GCC-9.2.0-Perl-5.30.1
 
-bcftools query -f '%CHROM\t[%GT]\n' hectors_final_variants.vcf | awk 'BEGIN{OFS="\t"} {chrom = substr($1, 10); if ($2 ~ /[0-9]\/[0-9]/) het[chrom]++} END{for (chrom in het) print chrom, het[chrom]/NR}' > heterozygosity_per_chromosome.txt
-
 vcftools --vcf hectors_final_variants.vcf --window-pi 10000 --out filter_hectors_10kb \
   --minQ 30 \
   --minDP 3 \
