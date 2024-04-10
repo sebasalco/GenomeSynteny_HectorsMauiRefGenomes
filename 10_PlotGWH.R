@@ -185,6 +185,15 @@ plot + coord_cartesian(ylim = c(0, 0.0015))
 # Save the box plot as an image
 ggsave("mean_std_boxplot.png", box_plot, width = 8, height = 6, dpi = 300)
 
+#### Violin Plot of Heterozygosity Distribution between Māui and Hector's ####
+
+violin_plot <- ggplot(combined_data, aes(x = Individual, y = PI, fill = Individual)) +
+  geom_violin(trim = FALSE, adjust = 2) +  # Adjust the bandwidth parameter (try different values)
+  scale_fill_manual(values = c("blue", "red")) +
+  labs(x = NULL, y = "Heterozygosity (π)", title = "Violin Plot of Heterozygosity Distribution between Māui and Hector's") +
+  theme_minimal() +
+  ylim(0, 0.003)
+ggsave("violin_plot.png", violin_plot, width = 8, height = 6, dpi = 300)
 
 #### Genome heterozygosity from 10x Chromium linked reads #### 
 
