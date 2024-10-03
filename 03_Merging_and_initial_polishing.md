@@ -10,16 +10,17 @@ We got two assemblies for each dolphin. In this step, we merged them to obtain a
 
 #SBATCH --nodes		1
 #SBATCH --cpus-per-task	1
-#SBATCH --ntasks		10
+#SBATCH --ntasks	10
 #SBATCH --job-name	QuickmergeMF
 #SBATCH --mem		100G
 #SBATCH --time		48:00:00
 #SBATCH --account	uoo02423
-#SBATCH --output		%x_%j.out
+#SBATCH --output	%x_%j.out
 #SBATCH --error		%x_%j.err
 #SBATCH --hint		nomultithread
 
-Install quick merge in conda environment
+#Install quick merge in conda environment
+export PATH=/nesi/nobackup/uoo02423/Sebastian/MergedAssemblies/Hectors42x/Quickmerge/:$PATH
 
 merge_wrapper.py  /nesi/nobackup/uoo02423/Sebastian/MergedAssemblies MauiFull\hectors_FlyeAssembly.fasta 
 	         /nesi/nobackup/uoo02423/Sebastian/MergedAssemblies/MauiFull/hectors_supernova_assembly.fasta \
@@ -69,7 +70,7 @@ purge_haplotigs purge -g /path/to/merged/assembly/hectors_merged_assembly.fasta 
 ```
 ## 3. Rails & Cobbler.
 Rails and cobbler was used as the first gap-filling step as well as an initial scaffolding step
-`Script for mkoutput`
+`Script for R&C`
 ```
 #!/bin/bash -e
 
