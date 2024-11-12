@@ -9,34 +9,55 @@ The output from LR_Gapcloser was used as query genome for this scaffolding step,
 ```
 #!/bin/bash -e
 
-#SBATCH --cpus-per-task 8
-#SBATCH --job-name	RagtagScff
-#SBATCH --mem		50G
-#SBATCH --time		10:00:00
-#SBATCH --account	uoo02423
-#SBATCH --output	%x_%j.out
-#SBATCH --error		%x_%j.err
-#SBATCH --hint		nomultithread
+#SBATCH --cpus-per-task=8
+#SBATCH --job-name=RagtagBootstrap
+#SBATCH --mem=50G
+#SBATCH --time=10:00:00
+#SBATCH --account=uoo02423
+#SBATCH --output=%x_%j.out
+#SBATCH --error=%x_%j.err
+#SBATCH --hint=nomultithread
 
 module purge
 module load minimap2/2.24-GCC-11.3.0
 
-export PATH=/path/to/ragtag/installation/RagTag/:$PATH
+export PATH=/path/to/ragtag/installation/RagTag:$PATH
 
-ragtag.py scaffold /path/to/reference/RefCetaceanGenomes/Commersonii/Commersonii.fasta \
-/path/output/from/LR_Gapcloser/hectors_gapclosed_scf.fasta
+assembly="/path/output/from/LR_Gapcloser/hectors_gapclosed_scf.fasta"
+references=(
+    "/path/to/reference/RefCetaceanGenomes/Commersonii/Commersonii.fasta"
+    "/path/to/reference/RefCetaceanGenomes/Tursiops/T_truncatus.fasta"
+    "/path/to/reference/RefCetaceanGenomes/Vaquita/P_sinus.fasta"
+    "/path/to/reference/RefCetaceanGenomes/Orca/O_orca.fasta"
+    "/path/to/reference/RefCetaceanGenomes/BlueWhale/B_musculus.fasta"
+)
 
-ragtag.py scaffold /path/to/reference/RefCetaceanGenomes/Tursiops/T_truncatus.fasta \
-/path/output/from/LR_Gapcloser/hectors_gapclosed_scf.fasta
+# Define the bootstrapping parameters
+minimap2_params=(
+    "-x asm5"
+    "-x asm10"
+)
+ragtag_params=(
+    "--aligner minimap2"
+    "--aligner minimap2 --remove-small"
+)
 
-ragtag.py scaffold /path/to/reference/RefCetaceanGenomes/Vaquita/P_sinus.fasta \
-/path/to/assembly/output/from/LR_Gapcloser/hectors_gapclosed_scf.fasta
+for ref in "${references[@]}"; do
+    for mm2_param in "${minimap2_params[@]}"; do
+        for rtg_param in "${ragtag_params[@]}"; do
+            # Define a unique output directory based on reference and parameters
+            ref_name=$(basename "$ref" .fasta)
+            mm2_name=$(echo "$mm2_param" | tr ' ' '_')
+            rtg_name=$(echo "$rtg_param" | tr ' ' '_')
+            output_dir="${ref_name}_${mm2_name}_${rtg_name}_output"
+            
+            mkdir -p "$output_dir"
+            
+            ragtag.py scaffold $rtg_param "$ref" "$assembly" -o "$output_dir" --aligner-params "$mm2_param"
+        done
+    done
+done
 
-ragtag.py scaffold /path/to/reference/RefCetaceanGenomes/Orca/O_orca.fasta \
-path/to/assembly/output/from/LR_Gapcloser/hectors_gapclosed_scf.fasta
-
-ragtag.py scaffold /path/to/reference/RefCetaceanGenomes/BlueWhale/B_musculus.fasta \
-path/to/assembly/output/from/LR_Gapcloser/hectors_gapclosed_scf.fasta
 ```
 ## 2. Merging Scaffolds
 In this step, we merged the results from the 5 different scaffolding performed in the previous step. Agp files encode adjacency and gap information and can be hierarchized by importance (weight). In this case, we did not assign with to the agp files.
