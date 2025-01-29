@@ -132,9 +132,9 @@ blobtools add \
 
 
 blobtools add \
-	--hits path/to/blastn/hits/EW_Assembly.ncbi.blastn.out \
-	--hits path/to/diamond.blastx/hits/EW_Assembly.diamond.blastx.out \
-	--cov path/to//coverage/bam/file/EW_Assembly.bam \
+	--hits path/to/blastn/hits/Hectors_blastn.out \
+	--hits path/to/diamond.blastx/hits/Hectors_diamond_blastx.out \
+	--cov /path/to/coverage/Hectors_Assembly.bam \
 	--taxrule bestsumorder \
 	--taxdump /path/to/database/Database/taxdump \
 	${PWD}/DATASETS/Hectors_assembly
