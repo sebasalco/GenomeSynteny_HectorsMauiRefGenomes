@@ -22,7 +22,10 @@ module load angsd/0.935-GCC-9.2.0
 GENOME=/path/to/genome/hectors_aut_genome.fasta
 BAM=/path/to/bam/file/hectors.aligned.sorted.bam
 
-angsd -i $BAM -anc $GENOME -dosaf 1 -GL 1
+angsd -i $BAM -anc $GENOME -dosaf 1 -GL 1 \
+    -SNP_pval 1e-6 \
+    -minMapQ 30 \
+    -minQ 20 \
 
 realSFS angsdput.saf.idx > est.ml
 
