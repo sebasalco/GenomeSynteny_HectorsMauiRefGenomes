@@ -50,6 +50,7 @@ export PATH=/nesi/nobackup/uoo02423/Sebastian/SyntenyRev/NGenomeSyn/:$PATH
 ./bin/GetTwoGenomeSyn.pl Paf2Link blue_vaquita_aln.paf 5000 blue_vaquita_aln.link
 ```
 ## 3. Generate synteny plots with NGenomeSyn. NGenomeSyn works with a .inf file. File example is mauihec.inf. In this file we specify the chromosome lenghts for each genome (.len files), and the .link file. Example file is "mauihec.inf"
+`mauihec.inf file`
 ```
 ################################### global parameters ############################################
 
@@ -127,9 +128,9 @@ SetParaFor =Link1     ## set parameter for the 1st occurrence of  LinkFileRef*Vs
 module purge
 export PATH=/nesi/nobackup/uoo02423/Sebastian/SyntenyRev/NGenomeSyn/:$PATH
 
-./bin/NGenomeSyn -InConf balmus_balric.inf -OutPut f_balmus_balric_synteny_mm2
+./bin/NGenomeSyn -InConf vaq_tur_aln.inf -OutPut vaq_tur_aln_synteny_mm2
 
-./bin/NGenomeSyn -InConf bostau_balmus.inf -OutPut f_bostau_balmus_synteny_mm2
+./bin/NGenomeSyn -InConf mauihec.inf -OutPut maui_hec_aln_synteny_mm2
 
-./bin/NGenomeSyn -InConf bostau_lagalb.inf -OutPut f_bostau_lagalb_synteny_mm2
+./bin/NGenomeSyn -InConf blue_vaquita_aln.inf -OutPut blue_vaquita_aln_synteny_mm2
 ```
