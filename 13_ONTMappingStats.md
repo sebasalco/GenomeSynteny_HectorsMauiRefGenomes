@@ -82,3 +82,52 @@ samtools flagstat ont_maui_scaffolded.bam
 samtools flagstat ont_maui_non_scaffolded.bam
 
 ```
+## 4. We evaluated the completeness and quality of the final assemblies using the kmer based statistics from Merqury QV 
+`Script for meryl, create database from WGS`
+```
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task 12
+#SBATCH --job-name      merylkd
+#SBATCH --mem           50G
+#SBATCH --time          06:00:00
+#SBATCH --account       uoo02423
+#SBATCH --output        %x_%j.out
+#SBATCH --error         %x_%j.err
+#SBATCH --hint          nomultithread
+
+module purge
+module load Merqury/1.3-Miniconda3
+
+meryl k=21 count WGS-Che11CB067_combined_trimmed_R1.fastq.gz output kmerdb_hec_wgsr1.meryl
+
+meryl k=21 count WGS-Che11CB067_combined_trimmed_R2.fastq.gz output kmerdb_hec_wgsr2.meryl
+
+meryl union-sum output hec.meryl kmerdb_hec_wgsr1.meryl kmerdb_hec_wgsr2.meryl
+```
+`Script for meryl, create database from WGS`
+```
+#!/bin/bash -e
+
+#SBATCH --cpus-per-task 12
+#SBATCH --job-name      qvmerq
+#SBATCH --mem           50G
+#SBATCH --time          06:00:00
+#SBATCH --account       uoo02423
+#SBATCH --output        %x_%j.out
+#SBATCH --error         %x_%j.err
+#SBATCH --hint          nomultithread
+
+# Load required modules
+module purge
+module load Merqury/1.3-Miniconda3
+module load BEDTools/2.31.1-GCC-12.3.0
+module load SAMtools/1.19-GCC-12.3.0
+
+# Ensure MERQURY environment variable is set
+export MERQURY=/opt/nesi/CS400_centos7_bdw/Merqury/1.3-Miniconda3/merqury
+
+# Run Merqury
+$MERQURY/merqury.sh hec.meryl \
+/path/to/genome/hectors_genome.fasta qv_hec_fin
+```
