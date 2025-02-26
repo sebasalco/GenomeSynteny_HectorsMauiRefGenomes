@@ -105,7 +105,7 @@ meryl k=21 count WGS-Che11CB067_combined_trimmed_R2.fastq.gz output kmerdb_hec_w
 
 meryl union-sum output hec.meryl kmerdb_hec_wgsr1.meryl kmerdb_hec_wgsr2.meryl
 ```
-`Script for meryl, create database from WGS`
+`Script for merqury`
 ```
 #!/bin/bash -e
 
