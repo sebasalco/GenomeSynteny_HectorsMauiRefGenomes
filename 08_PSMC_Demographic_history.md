@@ -121,5 +121,5 @@ psmc -N25 -t15 -r5 -p "8+23*2+9+1" -o merged.psmc merged.psmcfa
  
 #Generate plot
  
-smc_plot.pl -R -u 1.5e-08 -g 12.5 -p 1.5merged_plot merged.psmc
+psmc_plot.pl -R -u 1.5e-08 -g 12.5 -p 1.5merged_plot merged.psmc
 ```
